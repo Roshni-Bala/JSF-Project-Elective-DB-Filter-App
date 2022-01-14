@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Elective Availability</title>
+    </h:head>
+    <h:body>
+        <div style="margin: 40px 80px; text-align: center">
+        <h:graphicImage value ="https://images.indianexpress.com/2019/01/anna-university-1200.jpg" style=" width: 50%;"/>
+        <h:form>
+        <h2>Enter your name to proceed:</h2>
+        <p>Enter your name: </p>
+        <h:inputText id="sname" required="true" value = "#{teacher.sname}" requiredMessage="Please enter name to continue!" validatorMessage="Name should be properly capitalized and must be 4-20 characters.">
+            <f:validateLength maximum="20" minimum="4"/>
+            <f:validateRegex pattern="([A-Z][a-zA-Z]*)"/>
+        </h:inputText>
+        <p>Enter an elective course ID: </p>
+        <h:inputText id="courseid" required="true" value = "#{teacher.courseid}" requiredMessage="Please enter a course to continue!"
+                     validatorMessage="ID should be 3 numbers">
+            <f:validateLength maximum="3" minimum="3"/>
+        </h:inputText>
+        <p>Enter your Semester:</p>
+               <h:selectOneMenu id="semester" value ="#{teacher.semester}" style="width: 150px; ">
+                <f:selectItem itemValue="3" itemLabel="3" />
+                <f:selectItem itemValue="4" itemLabel="4" />
+                <f:selectItem itemValue="5" itemLabel="5" />
+                <f:selectItem itemValue="6" itemLabel="6" />
+                <f:selectItem itemValue="7" itemLabel="7" />
+                <f:selectItem itemValue="8" itemLabel="8" />
+            </h:selectOneMenu>      
+        <br> </br>
+        <h:commandButton action = "#{teacher.submit()}" value="Submit" style="padding: 10px 50px; background-color: lightcoral;">    
+        </h:commandButton>
+        </h:form>
+        </div>
+        <h:outputText value="#{teacher.course}"/>       
+    </h:body>
+</html>
+
