@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
+        <script type="text/javascript" src="jquery-3.5.1.min.js"></script>  
         <title>Teacher Vacancy and Registration</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
@@ -31,19 +32,21 @@
                      <f:selectItem itemValue="7" itemLabel="7" />
                      <f:selectItem itemValue="8" itemLabel="8" />
                     </h:selectOneMenu>
-                <h:commandButton id="searching" action = "#{teacher.submit()}" value="Search" >
+                <h:commandButton id="searching" action = "#{teacher.submit}" value="Search">
                     
                 </h:commandButton>
+                
+                
                  <br>  </br>
                 <h:form>
-                    <h:commandButton action = "#{teacher.update()}" value="Register for Course" id="register" style="color: royalblue; padding: 10px 10px; text-align: center;">
+                    <h:commandButton action = "#{teacher.update()}" value="Register for Course" id="register" style="color: royalblue; padding: 10px 10px; text-align: center;"  onclick="func();">
                         
                     </h:commandButton>
                     
                 </h:form>
                  
                  <br>  </br>
-                <h:dataTable binding ="#{table1}" value="#{teacher.studentAL}" var="item1" border="5" cellspacing="3" cellpadding="3" style="text-align: center;" id = "dt1">
+                <h:dataTable id = "datatable1" binding ="#{table1}" value="#{teacher.studentAL}" var="item1" border="5" cellspacing="3" cellpadding="3" style="text-align: center;" >
                     <h:column>
                         <f:facet name="header">S.No.</f:facet>
                         <h:outputText value ="#{table1.rowIndex +1}"/>
@@ -116,4 +119,10 @@
         </h4>
         </div>
     </h:body>
+    
+    <script>
+        function func(){
+            window.alert("Registered to course!");
+        }
+    </script>
 </html>

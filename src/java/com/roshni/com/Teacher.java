@@ -139,7 +139,7 @@ public class Teacher implements Serializable{
         return "displaypage.xhtml";
     }
     
-    public void update(){
+    public String update(){
         System.out.println("Update method invoked!");
         int rcid = getCourseid();
         int rtid = getTid();
@@ -161,5 +161,7 @@ public class Teacher implements Serializable{
         } catch (InstantiationException e) {
         } catch (SQLException e) {
         }
+        
+        return "index.xhtml";
     }
 }
