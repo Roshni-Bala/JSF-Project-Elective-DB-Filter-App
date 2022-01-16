@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <head>
-        <title>Teacher Elective classes</title>
+    <h:head>
+        <title>Teacher Vacancy and Registration</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
+    </h:head>
     <h:body>
         <h1 style="color: royalblue; padding: 10px 340px;">Welcome #{teacher.sname}!</h1>
         <div style="padding: 0 340px ;">
@@ -16,7 +16,9 @@
         <f:view>
             <h:form>
                  <p>Filter with different values:</p>
-                 <h:outputLabel>Course ID: </h:outputLabel><h:inputText id="courseid" required="true" value = "#{teacher.courseid}" requiredMessage="Please enter a course to continue!"
+                 <h:outputLabel>Course ID: </h:outputLabel><h:inputText id="courseid" value = "#{teacher.courseid}"> 
+                 </h:inputText>
+                 <h:outputLabel>Teacher ID: </h:outputLabel><h:inputText id="tid"  value = "#{teacher.tid}" required ="true" requiredMessage="Please enter teacher ID from list below to continue."
                      validatorMessage="ID should be 3 numbers">
                     <f:validateLength maximum="3" minimum="3"/>
                  </h:inputText>
@@ -29,9 +31,19 @@
                      <f:selectItem itemValue="7" itemLabel="7" />
                      <f:selectItem itemValue="8" itemLabel="8" />
                     </h:selectOneMenu>
-                <h:commandButton action = "#{teacher.submit()}" value="Search" ></h:commandButton>
+                <h:commandButton id="searching" action = "#{teacher.submit()}" value="Search" >
+                    
+                </h:commandButton>
                  <br>  </br>
-                <h:dataTable binding ="#{table1}" value="#{teacher.studentAL}" var="item1" border="5" cellspacing="3" cellpadding="3" style="text-align: center;">
+                <h:form>
+                    <h:commandButton action = "#{teacher.update()}" value="Register for Course" id="register" style="color: royalblue; padding: 10px 10px; text-align: center;">
+                        
+                    </h:commandButton>
+                    
+                </h:form>
+                 
+                 <br>  </br>
+                <h:dataTable binding ="#{table1}" value="#{teacher.studentAL}" var="item1" border="5" cellspacing="3" cellpadding="3" style="text-align: center;" id = "dt1">
                     <h:column>
                         <f:facet name="header">S.No.</f:facet>
                         <h:outputText value ="#{table1.rowIndex +1}"/>
@@ -92,9 +104,11 @@
                         <f:facet name="header">Vacancy</f:facet>
                         <h:outputText value ="#{item.vacancy}"/>
                     </h:column>
+                    
                  </h:dataTable>
             </h:form>
         </f:view>
+        
         <h4 style="color: red;">
             Click
             <h:outputLink value ="https://acoe.annauniv.edu/sems/login/student#">HERE</h:outputLink>

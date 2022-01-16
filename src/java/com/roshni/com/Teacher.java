@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 /**
@@ -19,8 +20,6 @@ import javax.faces.context.FacesContext;
  * @author Roshni
  */
 
-//@ManagedBean(name = "teacher", eager = true)
-//@SessionScoped
 @javax.faces.bean.ManagedBean
 @RequestScoped
 public class Teacher implements Serializable{
@@ -28,8 +27,6 @@ public class Teacher implements Serializable{
     int u_cid, u_sem;
     ResultSet res,res1;
     Teacher obj, obj1;
-    private Map<String,Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();  
-
     public ArrayList getTeacherAL() {
         return teacherAL;
     }
@@ -94,12 +91,10 @@ public class Teacher implements Serializable{
         this.vacancy = vacancy;
     }
     public String submit(){
-    
-        u_sname = getSname();
-        u_sem = getSemester();
+        u_sname = getSname(); u_sem = getSemester();
         u_cid = getCourseid();
         System.out.println("Submit method invoked.");
-        System.out.println(u_sname + "has filled out the form.");
+        System.out.println(u_sname + " has filled out the form!");
         //all entries 
         try{
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -142,5 +137,29 @@ public class Teacher implements Serializable{
         } catch (SQLException e) {
         }
         return "displaypage.xhtml";
-    }   
+    }
+    
+    public void update(){
+        System.out.println("Update method invoked!");
+        int rcid = getCourseid();
+        int rtid = getTid();
+        int rsem = getSemester();
+        System.out.println(rcid + " " + rtid);
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/electives", "root", "");
+            System.out.println("\nConnection made with database.\n");
+            Statement s = c.createStatement();
+            s.executeUpdate("update teacher set vacancy=vacancy-1 where (semester = '"+rsem+"' or courseid='"+rcid+"') and tid ='"+rtid+"';");
+            System.out.println("Excecuting query");
+            System.out.println("Update made");
+            System.out.println(rcid + " " + rtid + " registered. Vacancy updated.");
+            
+            c.close();
+        }catch(ClassNotFoundException e){
+        } catch (IllegalAccessException e) {
+        } catch (InstantiationException e) {
+        } catch (SQLException e) {
+        }
+    }
 }
