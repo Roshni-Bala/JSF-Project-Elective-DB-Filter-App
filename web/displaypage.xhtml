@@ -4,125 +4,119 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <script type="text/javascript" src="jquery-3.5.1.min.js"></script>  
+        <script type="text/javascript" src="jquery-3.5.1.min.js"></script>
         <title>Teacher Vacancy and Registration</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        <h1 style="color: royalblue; padding: 10px 340px;">Welcome #{teacher.sname}!</h1>
+        <h1 style="color: royalblue; padding: 10px 340px;">Welcome #{teacher.sname}!</h1> <!--Displays student name -->
         <div style="padding: 0 340px ;">
-        <h4>View the faculty's electives and vacancies:</h4>
-        
-        <h4>Based on form input, for semester #{teacher.semester} with ID: #{teacher.courseid} teacher availability is as follows:</h4>
-        <f:view>
+            <h4>View the faculty's electives and vacancies:</h4>
+            <h4>Based on form input, for semester #{teacher.semester} with ID: #{teacher.courseid} teacher availability is as follows:</h4>
             <h:form>
-                 <p>Filter with different values:</p>
-                 <h:outputLabel>Course ID: </h:outputLabel><h:inputText id="courseid" value = "#{teacher.courseid}"> 
-                 </h:inputText>
-                 <h:outputLabel>Teacher ID: </h:outputLabel><h:inputText id="tid"  value = "#{teacher.tid}" required ="true" requiredMessage="Please enter teacher ID from list below to continue."
-                     validatorMessage="ID should be 3 numbers">
-                    <f:validateLength maximum="3" minimum="3"/>
-                 </h:inputText>
-                <h:outputLabel> Semester: </h:outputLabel>
+                <p>Search and Save a spot:</p>
+                <h:outputLabel>Course ID: </h:outputLabel><h:inputText id="courseid" value = "#{teacher.courseid}"></h:inputText>
+                <h:outputLabel>Teacher ID: </h:outputLabel><h:inputText id="tid"  value = "#{teacher.tid}" ></h:inputText>
+                <h:outputLabel> Semester: </h:outputLabel> <!--SelectOneMenu JSF component to select the semester with minimum user error -->
                 <h:selectOneMenu id="semester" value ="#{teacher.semester}" style="width: 150px; ">
-                     <f:selectItem itemValue="3" itemLabel="3" />
-                     <f:selectItem itemValue="4" itemLabel="4" />
-                     <f:selectItem itemValue="5" itemLabel="5" />
-                     <f:selectItem itemValue="6" itemLabel="6" />
-                     <f:selectItem itemValue="7" itemLabel="7" />
-                     <f:selectItem itemValue="8" itemLabel="8" />
-                    </h:selectOneMenu>
-                <h:commandButton id="searching" action = "#{teacher.submit}" value="Search">
-                    
+                    <f:selectItem itemValue="3" itemLabel="3" />
+                    <f:selectItem itemValue="4" itemLabel="4" />
+                    <f:selectItem itemValue="5" itemLabel="5" />
+                    <f:selectItem itemValue="6" itemLabel="6" />
+                    <f:selectItem itemValue="7" itemLabel="7" />
+                    <f:selectItem itemValue="8" itemLabel="8" />
+                </h:selectOneMenu>
+                <h:commandButton id="searching" action = "#{teacher.submit}" value="Search"> <!--Command button for invoking the submit function which re filters the database table -->
                 </h:commandButton>
-                
-                
-                 <br>  </br>
+                <br>  </br>
+                <h:commandButton action = "#{teacher.update()}" value="SAVE YOUR SPOT" id="register" style="color: royalblue; padding: 10px 10px; text-align: center;"  onclick="func();">
+                    <!--Command Button for saving seat. This invokes the update function which decrements the value of vacancy by one. -->
+                </h:commandButton>
+            </h:form>
+            <br>  </br>
+            <f:view>
                 <h:form>
-                    <h:commandButton action = "#{teacher.update()}" value="Register for Course" id="register" style="color: royalblue; padding: 10px 10px; text-align: center;"  onclick="func();">
-                        
-                    </h:commandButton>
-                    
+                    <!-- The data table provides a method of dynamic table updation using the array list from Teacher.java-->
+                    <h:dataTable id = "datatable1" binding ="#{table1}" value="#{teacher.studentAL}" var="item1" border="5" cellspacing="3" cellpadding="3" style="text-align: center;" >
+                        <h:column>
+                            <f:facet name="header">S.No.</f:facet> <!--Header name of the table -->
+                            <h:outputText value ="#{table1.rowIndex +1}"/> <!--Serial Number -->
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Faculty Name</f:facet>
+                            <h:outputText value ="#{item1.name}"/> <!--Name of Teacher -->
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Teacher ID</f:facet>
+                            <h:outputText value ="#{item1.tid}"/><!-- Teacher ID-->
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Course</f:facet>
+                            <h:outputText value ="#{item1.course}"/> <!-- Course  Name -->
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Course ID</f:facet>
+                            <h:outputText value ="#{item1.courseid}"/><!-- Course ID-->
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Vacancy</f:facet>
+                            <h:outputText value ="#{item1.vacancy}"/> <!--Vacancy -->
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
-                 
-                 <br>  </br>
-                <h:dataTable id = "datatable1" binding ="#{table1}" value="#{teacher.studentAL}" var="item1" border="5" cellspacing="3" cellpadding="3" style="text-align: center;" >
-                    <h:column>
-                        <f:facet name="header">S.No.</f:facet>
-                        <h:outputText value ="#{table1.rowIndex +1}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Faculty Name</f:facet>
-                        <h:outputText value ="#{item1.name}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Teacher ID</f:facet>
-                        <h:outputText value ="#{item1.tid}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Course</f:facet>
-                        <h:outputText value ="#{item1.course}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Course ID</f:facet>
-                        <h:outputText value ="#{item1.courseid}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Vacancy</f:facet>
-                        <h:outputText value ="#{item1.vacancy}"/>
-                    </h:column>
-                </h:dataTable>
-            </h:form>
-        </f:view> 
-        
-        <h4>All subjects and faculty list:</h4>
-        <f:view>
-            <h:form>
-                <h:dataTable binding ="#{table}" value="#{teacher.teacherAL}" var="item" border="5" cellspacing="3" cellpadding="3" bgcolor='lightgray' style="text-align: center;">
-                    <h:column>
-                        <f:facet name="header">S.No.</f:facet>
-                        <h:outputText value ="#{table.rowIndex +1}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Faculty Name</f:facet>
-                        <h:outputText value ="#{item.name}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Teacher ID</f:facet>
-                        <h:outputText value ="#{item.tid}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Course</f:facet>
-                        <h:outputText value ="#{item.course}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Course ID</f:facet>
-                        <h:outputText value ="#{item.courseid}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Semester</f:facet>
-                        <h:outputText value ="#{item.semester}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Vacancy</f:facet>
-                        <h:outputText value ="#{item.vacancy}"/>
-                    </h:column>
-                    
-                 </h:dataTable>
-            </h:form>
-        </f:view>
-        
-        <h4 style="color: red;">
-            Click
-            <h:outputLink value ="https://acoe.annauniv.edu/sems/login/student#">HERE</h:outputLink>
-            to register for the subject of your choice.
-        </h4>
+            </f:view>
+
+            <h4>All subjects and faculty list:</h4>
+            <f:view>
+                <h:form>
+                    <!--The data table that has complete database table for user reference -->
+                    <h:dataTable binding ="#{table}" value="#{teacher.teacherAL}" var="item" border="5" cellspacing="3" cellpadding="3" bgcolor='lightgray' style="text-align: center;">
+                        <h:column>
+                            <f:facet name="header">S.No.</f:facet>
+                            <h:outputText value ="#{table.rowIndex +1}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Faculty Name</f:facet>
+                            <h:outputText value ="#{item.name}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Teacher ID</f:facet>
+                            <h:outputText value ="#{item.tid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Course</f:facet>
+                            <h:outputText value ="#{item.course}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Course ID</f:facet>
+                            <h:outputText value ="#{item.courseid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Semester</f:facet>
+                            <h:outputText value ="#{item.semester}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Vacancy</f:facet>
+                            <h:outputText value ="#{item.vacancy}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </f:view>
+
+            <h4 style="color: red;">
+                Click
+                <!--The output link tag allows us to specify a given link for users to click on. This will load the current tab to the specified website/page -->
+                <h:outputLink value ="https://acoe.annauniv.edu/sems/login/student#">HERE</h:outputLink>
+                to register for the subject of your choice.
+            </h4>
         </div>
     </h:body>
-    
     <script>
-        function func(){
-            window.alert("Registered to course!");
+        //script for displaying alert
+        function func() {
+            window.alert("Spot saved for searched course!");
+            window.open("https://acoe.annauniv.edu/sems/login/student#", '_blank'); 
+            //this will open the ACOE site after the OK button is clicked on the window alert
         }
     </script>
 </html>
