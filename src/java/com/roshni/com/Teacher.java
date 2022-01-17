@@ -150,7 +150,7 @@ public class Teacher implements Serializable {
     //update function for decrementing vacancy number from database 
     public String update() {
         
-        System.out.println("Update method invoked!");
+        System.out.println("Update method invoked\n");
         int rcid = getCourseid();
         int rtid = getTid();
         int rsem = getSemester();
