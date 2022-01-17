@@ -151,6 +151,9 @@ public class Teacher implements Serializable {
     public String update() {
         
         System.out.println("Update method invoked\n");
+
+        System.out.println("Update method invoked!");
+
         int rcid = getCourseid();
         int rtid = getTid();
         int rsem = getSemester();
