@@ -8,11 +8,11 @@
         <div style="margin: 40px 80px; text-align: center">
             <!--The graphic image tag allows us to display any image either downloaded or from an URL -->
             <h:graphicImage value ="https://images.indianexpress.com/2019/01/anna-university-1200.jpg" style=" width: 50%;"/>
+            <br></br>
             <h:form>
                 <h2>Enter your name to proceed:</h2>
                 <p>Enter your name: </p>
-                <!--The input text tag allows us to add text on the web page and specify value for JSF variables. Here the name used is
-                sname for student name for the teacher bean name.-->
+                <!--The input text tag allows us to add text on the web page and specify value for JSF variables. Here the name used is sname for student name for the teacher bean name.-->
                 <h:inputText id="sname" required="true" value = "#{teacher.sname}" requiredMessage="Please enter name to continue!"
                              validatorMessage="Name should be properly capitalized and must be 4-20 characters.">
                     <f:validateLength maximum="20" minimum="4"/> <!--Validation can be done by specifying a certain length -->
